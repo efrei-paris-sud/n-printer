@@ -17,6 +17,8 @@ tapTime      = 0.1
 holdTime     = 2
 n = 0
 
+
+
 #initialisation
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buttonPin1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -110,23 +112,26 @@ holdEnable1      = False
 
 
 dailyFlag    = False
+dailyRatp = False
 
 def daily():
-  GPIO.output(ledPin1, GPIO.HIGH)
+  GPIO.output(ledPin1, GPIO.LOW)
   printer.printImage(Image.open('morning.jpeg'), True)
+  GPIO.output(ledPin1, GPIO.HIGH)
   subprocess.call(["python", "twitter.py", "from:mto_idf", "#paris"])
+  GPIO.output(ledPin1, GPIO.LOW)
   printer.printImage(Image.open('stocks.jpeg'), True)
   subprocess.call(["python", "twitter.py", "from:boursorama", "#bourse"])
+  GPIO.output(ledPin1, GPIO.HIGH)
+  
+def ratp():
+  GPIO.output(ledPin1, GPIO.HIGH)
+  printer.printImage(Image.open('ratp.jpeg'), True)
+  subprocess.call(["python", "twitter.py", "from:Ligne13_RATP", " "])
   GPIO.output(ledPin1, GPIO.LOW)
 
-l = time.localtime()
 
-if (l.tm_hour == 60) and (l.tm_min == 6 + 30):
-    if dailyFlag == False:
-        daily()
-        dailyFlag = True
-else:
-    dailyFlag = False 
+
 
 
 def hold():
@@ -226,6 +231,18 @@ while(True):
                 tapEnable2  = True     
                 holdEnable2 = True
 
+    l = time.localtime()
 
-
-
+    if (l.tm_hour == 8) and (l.tm_min == 00):
+        if dailyFlag == False:
+            daily()
+            dailyFlag = True
+    else:
+        dailyFlag = False
+    
+    if ((l.tm_hour == 8) and (l.tm_min == 30)) or ((l.tm_hour == 17) and (l.tm_min == 05)):
+        if dailyRatp == False:
+            ratp()
+            dailyRatp = True
+    else:
+        dailyRatp = False 
