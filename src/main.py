@@ -157,7 +157,18 @@ while(True):
     t1 = time.time()
     t2 = time.time()
     t4 = time.time()
-
+    
+    sancho = printer.hasPaper()
+    if int(sancho) != 1:
+        GPIO.output(ledPin1, GPIO.LOW)
+        time.sleep(1)
+        GPIO.output(ledPin1, GPIO.HIGH)
+        GPIO.output(ledPin4, GPIO.LOW)
+        time.sleep(1)
+        GPIO.output(ledPin4, GPIO.HIGH)
+        
+    
+        
     if buttonState1 != prevButtonState1:
         prevButtonState1 = buttonState1   # Si l'etat a changé, nouveau etat/temps
         prevTime        = t1

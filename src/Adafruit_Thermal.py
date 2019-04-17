@@ -272,21 +272,21 @@ class Adafruit_Thermal(Serial):
 
     def setSize(self, value):
         c = value.upper()
-        if c == 'L':   # Large: double width and height
+        if c == 'L': 
             size            = 0x11
             self.charHeight = 48
             self.maxColumn  = 16
-        elif c == 'M': # Medium: double height
+        elif c == 'M': 
             size            = 0x01
             self.charHeight = 48
             self.maxColumn  = 32
-        else:          # Small: standard width and height
+        else:         
             size            = 0x00
             self.charHeight = 24
             self.maxColumn  = 32
 
         self.writeBytes(29, 33, size, 10)
-        prevByte = '\n' # Setting the size adds a linefeed
+        prevByte = '\n' 
 
 
     # 0 - non souligné
