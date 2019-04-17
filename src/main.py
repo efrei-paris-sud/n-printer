@@ -43,6 +43,7 @@ except:
     printer.println('Connexion a internet echouee')
     printer.boldOff()
     printer.feed(3)
+    exit(0)
 
 
 query = "efrei"
@@ -50,42 +51,50 @@ query = "efrei"
 
 
 def tap2():
+
+  GPIO.output(ledPin4, GPIO.LOW)
   print("vous avez appuyé sur le bouton\n")
-  time.sleep(3)
-  printer.print("Impression des tweets \n " + query + "\n")
+  printer.print("Impression des tweets 2\n " + query + "\n")
+  time.sleep(1)
+  GPIO.output(ledPin4, GPIO.HIGH)
   printer.feed(3)
   subprocess.call(["python", "twitter.py" , query, ' '])
-  GPIO.output(ledPin1, GPIO.HIGH)
+  GPIO.output(ledPin4, GPIO.LOW)
   time.sleep(5)
-  GPIO.output(ledPin1, GPIO.LOW)
+  GPIO.output(ledPin4, GPIO.HIGH)
   print("twitter fini")
 
 def tap():
     global n
     global query
-    GPIO.output(ledPin4, GPIO.HIGH)
+    GPIO.output(ledPin1, GPIO.LOW)
     queryTab = ["from:facebook", "from:instagram", "from:twitter"]
     n = n + 1
     n = n % 3
-    print("vous avez appuyé sur le bouton 4\n")
+    GPIO.output(ledPin1, GPIO.HIGH)
+    print("vous avez appuyé sur le bouton 3\n")
     query=queryTab[n]
+    GPIO.output(ledPin1, GPIO.LOW)
     hashtag = ' '
     print(query)
     printer.print("Changement pour les tweets de \n "+ query + "\n")
     printer.feed(3)
-    GPIO.output(ledPin4, GPIO.LOW)
+    GPIO.output(ledPin1, GPIO.HIGH)
 
 
 def tap4():
-  GPIO.output(ledPin4, GPIO.HIGH)
+  GPIO.output(ledPin4, GPIO.LOW)
   print("vous avez appuyé sur le bouton 1\n")
+  time.sleep(1)
+  GPIO.output(ledPin4, GPIO.HIGH)
   printer.printImage(Image.open('weather.jpeg'), True)
   query = 'from:mto_idf'
   hashtag = '#paris'
   subprocess.call(["python", "twitter.py", query, hashtag])
+  GPIO.output(ledPin4, GPIO.LOW)
   printer.printImage(Image.open('stocks.jpeg'), True)
   subprocess.call(["python", "twitter.py", "from:boursorama", "#bourse"])
-  GPIO.output(ledPin4, GPIO.LOW)
+  GPIO.output(ledPin4, GPIO.HIGH)
 
   
 prevButtonState1 = GPIO.input(buttonPin1)
@@ -130,12 +139,14 @@ def hold():
   GPIO.output(ledPin4, GPIO.LOW)
 
 def hold2():
-  GPIO.output(ledPin1, GPIO.LOW)
   GPIO.output(ledPin4, GPIO.LOW)
+  printer.printImage(Image.open('goodbye.png'), True)
+  printer.feed(3)
+  GPIO.output(ledPin1, GPIO.HIGH)
   exit(0)
 
 printer.printImage(Image.open('hello.jpeg'), True)
-printer.print("1. Afficher la meteo et la bourse \n  Hold : eteindre \n2. Imprimer les tweet \n3. Changer le type de tweet\n Hold : desactiver")
+printer.print("1. Afficher meteo et bourse \n  Hold : eteindre \n\n2. Imprimer les tweet \n\n3. Changer le type de tweet\n Hold : desactiver")
 printer.feed(6)
 
 while(True):
