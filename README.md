@@ -20,10 +20,10 @@ Nous avons sur notre planche 3 boutons poussoir et 1 bouton supplémentaire mis 
 
 Ensuite nous avons 2 états pour le système :
 
-  -Le premier état est un état dit "sleep" ou le programme principal n'est pas lancé. Le Raspberry est bien booté mais il ne se passe       rien. Cet etat s'illustre en gardant la led verte allumée.
+  -Le premier état est un état dit "sleep" ou le programme principal n'est pas lancé. Le Raspberry est bien booté mais il ne se passe       rien et les boutons n'ont aucun effet sauf le bouton 4 qui va lui faire passer l'imprimante vers l'autre etat. Cet etat s'illustre en gardant la led verte allumée.
     Il permet de ne pas effectuer les action automatique de l'imprimante et de ne rien imprimer pour l'instant. Il permet aussi de            modifier le code et une fois enregistré, on peut lancer directement la nouvelle version sans debrancher le tout.
    
-   -Le deuxième etat lui est l'état 
+   -Le deuxième etat lui est lorsque l'imprimante est active. Lorsqu'on entre dans cet etat, les deux led s'allument et un message de bienvenue est imprimé avec le menu des actions
 
 Components needed :
 Rasberry-Pi Modèle B
